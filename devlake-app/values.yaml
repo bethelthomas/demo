@@ -1,0 +1,21 @@
+grafana:
+  service:
+    type: NodePort
+    ports:
+      - port: 80
+        targetPort: 3000
+        nodePort: 39100
+
+ui:
+  service:
+    type: NodePort
+    ports:
+      - port: 80
+        targetPort: 4000
+        nodePort: 39101
+
+lake:
+  encryptionSecret:
+    secret: "YOUR_GENERATED_SECRET"
+  service:
+    type: LoadBalancer
