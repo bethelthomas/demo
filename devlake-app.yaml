@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devlake
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://apache.github.io/incubator-devlake-helm-chart
+    chart: devlake
+    targetRevision: 0.14.2
+    helm:
+      values: |
+        grafana:
+          service:
+            type: NodePort
+            ports:
+              - port: 80
+                targetPort: 3000
+                nodePort: 39100
+
+        ui:
+          service:
+            type: NodePort
+            ports:
+              - port: 80
+                targetPort: 4000
+                nodePort: 39101
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devlake-new
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+
